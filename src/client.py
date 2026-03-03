@@ -58,19 +58,19 @@ class HospitalClient(fl.client.NumPyClient):
         # Optional metrics after local training (helps server logs)
         m = evaluate(self.model, self.X_test, self.y_test)
         return self.get_parameters(config), len(self.X_train), {
-            "train_loss": m["loss"],
-            "train_accuracy": m["accuracy"],
+            "loss": m["loss"],
+            "accuracy": m["accuracy"],
         }
 
     def evaluate(self, parameters, config):
         self.set_parameters(parameters)
         m = evaluate(self.model, self.X_test, self.y_test)
 
-        round_number = config.get("server_round", "N/A")
-
         print(
             f"| Accuracy: {m['accuracy']:.4f} "
-            f"| Loss: {m['loss']:.4f}"
+            f"| Loss: {m['loss']:.4f} "
+            f"| Recall: {m['recall']:.4f} "
+            f"| F1: {m['f1']:.4f}"
         )
 
         return m["loss"], len(self.X_test), {

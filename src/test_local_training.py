@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 
-from model_tf import build_model
-from train_tf import train_local, evaluate, predict_risk, set_weights
+from .model_tf import build_model
+from .train_tf import train_local, evaluate, predict_risk, set_weights
 
 # Set seeds for reproducibility (same results every run)
 tf.random.set_seed(42)
