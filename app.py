@@ -734,22 +734,36 @@ def health_dashboard_page():
             prediction_prob = model.predict(input_scaled)[0][0]
 
             with placeholder.container():
-                if prediction_prob >= 0.5:
+                if prediction_prob >= 0.7:
+                    # HIGH RISK
                     st.markdown(f"""
                         <div class="risk-alert" style="padding: 24px; background: #FDEDEC; border: 2px solid #E74C3C; border-radius: 16px; text-align:center;">
-                            <div style="color: #E74C3C; font-size:13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Diagnosis Result</div>
-                            <div style="font-size: 42px; font-weight: 900; color: #E74C3C; line-height:1.1; margin: 15px 0;">HIGH RISK</div>
-                            <div style="font-size: 20px; color: #C0392B; font-weight:700; margin-bottom: 20px;">{(prediction_prob*100):.1f}% Prob.</div>
-                            <div style="font-size:13px; color:#922B21; font-weight:600; background:rgba(231,76,60,0.1); padding:10px; border-radius:8px;">Consult endocrinologist immediately.</div>
+                            <div style="color: #E74C3C; font-size:13px; font-weight:700; text-transform: uppercase;">Diagnosis Result</div>
+                            <div style="font-size: 42px; font-weight: 900; color: #E74C3C;">HIGH RISK</div>
+                            <div style="font-size: 20px; color: #C0392B; font-weight:700;">{(prediction_prob*100):.1f}% Prob.</div>
+                            <div style="font-size:13px; color:#922B21;">Consult doctor immediately.</div>
                         </div>
                     """, unsafe_allow_html=True)
+
+                elif prediction_prob >= 0.4:
+                    # MEDIUM RISK
+                    st.markdown(f"""
+                        <div style="padding: 24px; background: #FFF8E1; border: 2px solid #F39C12; border-radius: 16px; text-align:center;">
+                            <div style="color: #F39C12; font-size:13px; font-weight:700; text-transform: uppercase;">Diagnosis Result</div>
+                            <div style="font-size: 42px; font-weight: 900; color: #F39C12;">MEDIUM RISK</div>
+                            <div style="font-size: 20px; color: #D68910; font-weight:700;">{(prediction_prob*100):.1f}% Prob.</div>
+                            <div style="font-size:13px; color:#AF601A;">Monitor lifestyle and recheck.</div>
+                        </div>
+                    """, unsafe_allow_html=True)
+
                 else:
+                    # LOW RISK
                     st.markdown(f"""
                         <div style="padding: 24px; background: #E8F8F5; border: 2px solid #1ABC9C; border-radius: 16px; text-align:center;">
-                            <div style="color: #1ABC9C; font-size:13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Diagnosis Result</div>
-                            <div style="font-size: 42px; font-weight: 900; color: #1ABC9C; line-height:1.1; margin: 15px 0;">LOW RISK</div>
-                            <div style="font-size: 20px; color: #117864; font-weight:700; margin-bottom: 20px;">{(prediction_prob*100):.1f}% Prob.</div>
-                            <div style="font-size:13px; color:#148F77; font-weight:600; background:rgba(26,188,156,0.1); padding:10px; border-radius:8px;">Vitals inside safe tolerance.</div>
+                            <div style="color: #1ABC9C; font-size:13px; font-weight:700; text-transform: uppercase;">Diagnosis Result</div>
+                            <div style="font-size: 42px; font-weight: 900; color: #1ABC9C;">LOW RISK</div>
+                            <div style="font-size: 20px; color: #117864; font-weight:700;">{(prediction_prob*100):.1f}% Prob.</div>
+                            <div style="font-size:13px; color:#148F77;">Vitals within safe range.</div>
                         </div>
                     """, unsafe_allow_html=True)
 
